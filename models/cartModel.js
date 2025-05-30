@@ -7,58 +7,17 @@ const cartSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "Creator",
     },
-    brand:{
-      type: mongoose.Schema.ObjectId,
-      ref: "Brand",
-    },
-    brandName:{
-      type:String,
-    },
-    brandCountry:{
-      type: mongoose.Schema.ObjectId, 
-      ref: "Country",
-    },        
-
-    project:{
-      type: mongoose.Schema.ObjectId,
-      ref: "Project",
-    },
-    creativeType:{
-      type:String,
-      default:"video",
-      enum:["video","audio"]
-    },
-    creativeLanguage:{
-      type: mongoose.Schema.ObjectId,
-      ref: "Language",
-    },
-    creativeQuantity: {
-      type: Number,
-    },
-    creativeHookQuantity: {
-      type: Number,
-    },
-    creativeUnitPrice: {
-      type: Number,
-    },
-    creativeHookUnitPrice: {
-      type: Number,
-    },
-    createiveDeliveryDays: {
-      type: String,
-    },
+    // brand:{
+    //   type: mongoose.Schema.ObjectId,
+    //   ref: "Brand",
+    // },
+    
     isDeleted: {
       type: Boolean,
       default: false,
       enum: [false, true],
     },
-    currency: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Currency",
-    },
-    currencyName: {
-      type: String,
-    },
+    
     refNumber: {
       type: String,
     },
@@ -76,34 +35,150 @@ const cartSchema = new mongoose.Schema(
       default: "unmarked-for-checkout",
       enum: ["unmarked-for-checkout", "marked-for-checkout", "checkedout"],
     },
-    
-    category: [
+
+    vehicle: [
+      {
+      type: mongoose.Schema.ObjectId,
+      ref: "CreatorSample",
+      default:null
+      }
+    ],
+   
+
+    numberOfVehicleOccupant:{
+      type:Number,
+      default:1
+    },
+
+    service:[
+      {
+        type:String,
+        enum:[
+          "none",
+          "carhire",
+          "car-and-security",
+          "vvip",
+          "business-executive",
+          "diplomatic",
+          "family-group",
+          "private-jet",
+          "medical-emergency",
+          "airline-crew",
+          "addon-lounge-access",
+          "addon-concierge",
+          "addon-carhire",
+          "addon-carhire-and-onsite-security",
+          "addon-carhire-and-ontransit-security"
+
+        ],
+        default:"none"
+      }
+    ],
+
+    sourceLocation:[
       {
         type: mongoose.Schema.ObjectId,
-        ref: "Category",
-      },
+        ref: "Location",
+      }
+      
     ],
-    creatorCategoryCode:{
+    country:[
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Country",
+      }
+      
+    ],
+
+    sourceState:[
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "State",
+      }
+      
+    ],
+    destinationState:[
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "State",
+      }
+      
+    ],
+    destinationAddress:{
+      type:String
+    },
+    arrivalDate:{
+      type:Date
+    },
+    departureDate:{
+      type:Date
+    },
+    tripCoverage:{
       type:String,
+      default:"one-way",
+      enum:["one-way","two-way"]
     },
-    creatorCategoryName:{
+    serviceApplicability:{
       type:String,
+      default:"at-arrival",
+      enum:["at-arrival","at-departure","both"]
     },
-    grandTotal: {
-      type: Number,
+
+    onsiteSecurityServiceApplicability:{
+      type:String,
+      default:"not-applicable",
+      enum:["not-applicable","at-arrival","at-departure","both"]
     },
-    
+    ontransitSecurityServiceApplicability:{
+      type:String,
+      default:"not-applicable",
+      enum:["not-applicable","from-arrival","from-destination","both"]
+    },
+       
+    ontransitSecurityService:{
+      type:String,
+      default:"not-applicable",
+      enum:["not-applicable","yes","no"]
+
+    },
+    onsiteSecurityService:{
+      type:String,
+      default:"not-applicable",
+      enum:["not-applicable","yes","no"]
+
+    },
+    carService:{
+      type:String,
+      default:"not-applicable",
+      enum:["not-applicable","yes","no"]
+
+    },
 
     slug: {
       type: String,
-    },
-    creatorImage: {
-      type: String,
+      default:null
     },
     
-   
- 
+    category:[
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Category",
+      }
+      
+    ],
+    image:{
+      type:String
+    },
+    packageCostPerPerson:{
+      type:Number,
+      default:0
+    },
+    numberOfGuest:{
+      type:Number,
+      default:0
+    },
     
+
   },
 
   {
@@ -119,22 +194,34 @@ cartSchema.pre(/^find/, function (next) {
   next();
 });
 
-cartSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "creativeLanguage",
-  });
-  next();
-});
 
 cartSchema.pre(/^find/, function (next) {
   this.populate({
-    path: "currency",
+    path: "brand",
   });
   next();
 });
 cartSchema.pre(/^find/, function (next) {
   this.populate({
-    path: "project",
+    path: "creator",
+  });
+  next();
+});
+cartSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "sourceLocation",
+  });
+  next();
+});
+cartSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "destinationLocation",
+  });
+  next();
+});
+cartSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "vehicle",
   });
   next();
 });
@@ -144,6 +231,20 @@ cartSchema.pre(/^find/, function (next) {
   });
   next();
 });
+cartSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "sourceState",
+  });
+  next();
+});
+cartSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "destinationState",
+  });
+  next();
+});
+
+
 
 
 const Cart = mongoose.model("Cart", cartSchema);

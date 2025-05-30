@@ -19,6 +19,7 @@ const cityRouter = require("./routes/cityRoute");
 const vendorRouter = require("./routes/vendorRoute");
 const orderRouter = require("./routes/orderRoute");
 const policyRouter = require("./routes/policyRoute");
+const locationRoute = require("./routes/locationRoute");
 const paymentRouter = require("./routes/paymentRoute");
 const countryRouter = require("./routes/countryRoute");
 const stateRouter = require("./routes/stateRoute");
@@ -168,6 +169,9 @@ app.use("/api/v1/projects", projectRoute);
 app.use("/api/v1/creators", creatorRoute);
 app.use("/api/v1/brands", brandRoute);
 app.use("/api/v1/samples", creatorSample);
+app.use("/api/v1/locations", locationRoute);
+
+
 
 
 

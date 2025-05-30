@@ -9,12 +9,12 @@ router
   .route("/")
   .get(
     authController.protect,
-    authController.restrictTo("admin", "brand","creator"),
+    authController.restrictTo("admin", "vehicleOwner","customer","staff","protocolOfficer"),
     orderController.getAllOrders
   )
   .post(
     authController.protect,
-    authController.restrictTo("admin", "brand","creator"),
+    authController.restrictTo("admin", "vehicleOwner","customer","staff","protocolOfficer"),
     orderController.createOrder,
     orderController.uploadOrderImage,
     orderController.resizeOrderImage
@@ -25,9 +25,9 @@ router.use(authController.protect);
 
 router
   .route("/:id")
-  .get(authController.restrictTo("admin", "brand","creator"), orderController.getOrder)
+  .get(authController.restrictTo("admin", "vehicleOwner","customer","staff","protocolOfficer"), orderController.getOrder)
   .patch(
-    authController.restrictTo("admin", "brand","creator"),
+    authController.restrictTo("admin", "vehicleOwner","customer","staff","protocolOfficer"),
     orderController.updateOrder,
     orderController.uploadOrderImage,
     orderController.resizeOrderImage

@@ -52,5 +52,12 @@ citySchema.pre(/^find/, function (next) {
   next();
 });
 
+citySchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "state",
+  });
+  next();
+});
+
 const City = mongoose.model("City", citySchema);
 module.exports = City;

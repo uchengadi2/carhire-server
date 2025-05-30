@@ -4,9 +4,9 @@ const creatorSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please provide the name of the creator"],
+      required: [true, "Please provide the name of the vehicle owner"],
     },
-    bio:{
+    organizationDetails:{
       type:String,
       default:null,
     },
@@ -18,38 +18,38 @@ const creatorSchema = new mongoose.Schema(
         },
       ],
    
-      currency: [
-        {
-          type: mongoose.Schema.ObjectId,
-          ref: "Currency",
-        },
-      ],
+      // currency: [
+      //   {
+      //     type: mongoose.Schema.ObjectId,
+      //     ref: "Currency",
+      //   },
+      // ],
    
-    videoPrice:{
-          type:Number,
-          default:0
-        },
-        videoHookPrice:{
-          type:Number,
-          default:0
-        },
-        videoDeliveryDays:{
-          type:Number,
-          default:0
-        },
+    // videoPrice:{
+    //       type:Number,
+    //       default:0
+    //     },
+    //     videoHookPrice:{
+    //       type:Number,
+    //       default:0
+    //     },
+    //     videoDeliveryDays:{
+    //       type:Number,
+    //       default:0
+    //     },
       
-        soundPrice:{
-          type:Number,
-          default:0
-        },
-        soundHookPrice:{
-          type:Number,
-          default:0
-        },
-        soundDeliveryDays:{
-          type:Number,
-          default:0
-        },
+    //     soundPrice:{
+    //       type:Number,
+    //       default:0
+    //     },
+    //     soundHookPrice:{
+    //       type:Number,
+    //       default:0
+    //     },
+    //     soundDeliveryDays:{
+    //       type:Number,
+    //       default:0
+    //     },
        
         
         age:{
@@ -60,11 +60,11 @@ const creatorSchema = new mongoose.Schema(
           default:"male",
           enum:["male","female","prefer-not-to-say"]
         },
-        rate:{
-          type:String,
-          default:"not-rated",
-          enum:["topmost-rated","top-rated","rated","not-rated"]
-        },
+        // rate:{
+        //   type:String,
+        //   default:"not-rated",
+        //   enum:["topmost-rated","top-rated","rated","not-rated"]
+        // },
     
     
          country: [
@@ -73,18 +73,18 @@ const creatorSchema = new mongoose.Schema(
                 ref: "Country",
               },
             ],
-        niches: [
-              {
-                type: mongoose.Schema.ObjectId,
-                ref: "Niche",
-              },
-            ],
-        languages: [
-              {
-                type: mongoose.Schema.ObjectId,
-                ref: "Language",
-              },
-            ],
+        // niches: [
+        //       {
+        //         type: mongoose.Schema.ObjectId,
+        //         ref: "Niche",
+        //       },
+        //     ],
+        // languages: [
+        //       {
+        //         type: mongoose.Schema.ObjectId,
+        //         ref: "Language",
+        //       },
+        //     ],
     createdBy: [
       {
         type: mongoose.Schema.ObjectId,
@@ -99,12 +99,12 @@ const creatorSchema = new mongoose.Schema(
     ],
 
     
-    category: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: "Category",
-      },
-    ],
+    // category: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: "Category",
+    //   },
+    // ],
     dateCreated: {
       type: Date,
       default: Date.now,
@@ -176,33 +176,33 @@ creatorSchema.pre(/^find/, function (next) {
   next();
 });
 
-creatorSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "category",
-  });
-  next();
-});
+// creatorSchema.pre(/^find/, function (next) {
+//   this.populate({
+//     path: "category",
+//   });
+//   next();
+// });
 
-creatorSchema.pre(/^find/, function (next) {
-    this.populate({
-      path: "niches",
-    });
-    next();
-  });
+// creatorSchema.pre(/^find/, function (next) {
+//     this.populate({
+//       path: "niches",
+//     });
+//     next();
+//   });
 
-  creatorSchema.pre(/^find/, function (next) {
-    this.populate({
-      path: "languages",
-    });
-    next();
-  });
+  // creatorSchema.pre(/^find/, function (next) {
+  //   this.populate({
+  //     path: "languages",
+  //   });
+  //   next();
+  // });
 
-  creatorSchema.pre(/^find/, function (next) {
-    this.populate({
-      path: "currency",
-    });
-    next();
-  });
+  // creatorSchema.pre(/^find/, function (next) {
+  //   this.populate({
+  //     path: "currency",
+  //   });
+  //   next();
+  // });
 
   
 

@@ -19,13 +19,13 @@ const userSchema = new mongoose.Schema(
     photo: { type: String, default: "default.jpg" },
     role: {
       type: String,
-      default: "creator",
+      default: "customer",
       enum: [
-        "user",
-        "brand",
+        "customer",
         "admin",
         "staff",
-        "creator",
+        "vehicleOwner",
+        "protocolOfficer"
         
       ],
     },
@@ -55,8 +55,8 @@ const userSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      default: "creator",
-      enum: ["staff", "creator", "brand"],
+      default: "customer",
+      enum: ["staff", "vehicleOwner", "customer"],
     },
     // vendor: {
     //   type: mongoose.Schema.ObjectId,

@@ -17,13 +17,25 @@ const creatorSampleSchema = new mongoose.Schema(
       type:String,
       default:null,
     },
-    sampleType:{
+    vehicleClass:{
         type:String,
-        enum:["video","audio"]
+        enum:["economy","business","luxury","security-van","buses","motorcycle","trailer","truck"],
+        default:"economy"
+        
     },
-    
+    specialFeature:{
+        type:String,
+        default:"none",
+        enum:["bullet-proof","fire-proof","water-proof","bomb-proof","none"],
+        // enum:["bullet-proof","fire-proof","water-proof","bomb-proof"],
+        default:"bullet-proof"
+    },
   
     dateCreated: {
+      type: Date,
+      default: Date.now,
+    },
+    dateModified: {
       type: Date,
       default: Date.now,
     },
@@ -33,10 +45,14 @@ const creatorSampleSchema = new mongoose.Schema(
             ref: "User",
           },
         ],
+        modifiedBy: [
+          {
+            type: mongoose.Schema.ObjectId,
+            ref: "User",
+          },
+        ],
 
-      slug:{
-        type:String,
-      },  
+        
       status:{
         type:String,
         default:"invisible",
@@ -55,10 +71,70 @@ const creatorSampleSchema = new mongoose.Schema(
       ],
       dateApprovedOrRejected:{
         type:Date
-      }
+      },
 
+      image: {
+        type: String,
+        required: [false, "Please provide the vehicle image cover"],
+      },
+  
+      images: [
+        {
+          type: String,
+        },
+      ],
+      driverDetails: {
+        type: String,
+      },
+      vehicleDetails: {
+        type: String,
+      },
+      vehicleDescription: {
+        type: String,
+      },
+      location: [
+            {
+              type: mongoose.Schema.ObjectId,
+              ref: "State",
+            },
+          ],
       
-   
+          maximumOccupants: {
+            type: Number,
+            default: 0,
+          },
+          sampleType: {
+            type: String,
+            enum: [
+              "hatchback",
+              "sedan",
+              "suv",
+              "pickup",
+              "van",
+              "bus",
+              "truck",
+              "motorcycle",
+            ],
+            default: "hatchback",
+          },
+          vehicleMake: {
+            type: String,
+            required: [true, "Please provide the vehicle make"],
+          },
+          vehicleModel: {
+            type: String,
+            required: [true, "Please provide the vehicle model"],
+          },
+      
+          category: [
+            {
+              type: mongoose.Schema.ObjectId,
+              ref: "Category",
+            },
+          ],
+          slug:{
+            type:String,
+          },
      
   },
   {
@@ -78,6 +154,20 @@ creatorSampleSchema.pre(/^find/, function (next) {
 creatorSampleSchema.pre(/^find/, function (next) {
     this.populate({
       path: "creator",
+    });
+    next();
+  });
+
+  creatorSampleSchema.pre(/^find/, function (next) {
+    this.populate({
+      path: "location",
+    });
+    next();
+  });
+
+  creatorSampleSchema.pre(/^find/, function (next) {
+    this.populate({
+      path: "category",
     });
     next();
   });

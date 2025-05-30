@@ -5,193 +5,162 @@ const orderSchema = new mongoose.Schema(
   {
     orderNumber: {
       type: String,
-      required: true,
+      //required: true,
     },
     cartId: {
       type: mongoose.Schema.ObjectId,
       ref: "Cart",
     },
-    transactionId: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Transaction",
-    },
-    creator: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Creator",
-    },
-    productCategory: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Category",
-    },
-   
-    quantityAdddedToCart: {
-      type: Number,
-      default:0,
-    },
-    orderedCreativeQuantity: {
-      type: Number,
-      default:0,
-    },
-    orderedHookQuantity: {
-      type: Number,
-      default:0,
-    },
-    
-    orderedCreativePricePerUnit: {
-      type: Number,
-      default:0,
-    },
-    orderedHookPricePerUnit:{
-      type:Number,
-      default:0,
-    },
-    productCurrency: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Currency",
-    },  
-    
-    creativeType:{
-      type:String,
-      enum:["video","audio"]
-    },
-    
-    totalProductCost: {
-      type: Number,
-      default:0,
-    },
-   
-    recipientName: {
-      type: String,
-      default:null
-    },
-    recipientPhoneNumber: {
-      type: String,
-      default:null
-    },
-    recipientEmailAddress: {
-      type: String,
-      default:null
-    },
-
-    dateAddedToCart: {
-      type: Date,
-    },
-
-    dateOrdered: {
-      type: Date,
-      default: Date.now,
-    },
-    orderedBy: {
-      type: mongoose.Schema.ObjectId,
-      ref: "User",
-    },
-
-    paymentStatus: {
-      type: String,
-      enum: ["to-be-confirmed", "paid", "not-processed"],
-      default: "to-be-confirmed",
-    },
-    paymentMethod: {
-      type: String,
-      default: "audit",
-      enum: ["audit", "card", "foreigner"],
-    },
-    status: {
-      type: String,
-      default: "creative-pending",
-      enum: [
-        "creative-pending",
-        "creative-in-review",
-        "creative-completed",
-        "marked-for-payment", 
-        "project-completed",
-        ],
-    },
-    rejectionReason: {
-      type: String,
-      trim: true,
-    },
-    
-   
+   creator: {
+         type: mongoose.Schema.ObjectId,
+         ref: "Creator",
+       },
       
-   slug: {
-      type: String,
-      default: null,
-    },
-    
-    brand: [
-      {
+       
+       isDeleted: {
+         type: Boolean,
+         default: false,
+         enum: [false, true],
+       },
+       
+       refNumber: {
+         type: String,
+       },
+       cartHolder: {
+         type: mongoose.Schema.ObjectId,
+         ref: "User",
+       },
+       user: {
         type: mongoose.Schema.ObjectId,
-        ref: "Brand",
+        ref: "User",
       },
-    ],
-    language: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: "Language",
+       dateAddedToCart: {
+        type: Date,
+        default: Date.now,
       },
-    ],
-    creativeLanguage: {
-      type:String,
-      default:null
-    },
-    creativeDeliveryDays:{
-      type: String,
-    },
-    image:{
-      type:String,
-    },
-    
-    creatorCategoryCode: {
-      type: String,
-    },
-    brandCountry: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Country",
-    },
-    
-    brandName: {
-      type: String,
-    },
-    
-    project: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: "Project",
-      },
-    ],
-    projectName: {
-      type: String,
-    },
-
-    creatives: [
-      {
-        type: String,
-        
-      },
-    ],
-
-    hooks: [
-      {
-        type: String,
-        
-      },
-    ],
-    creativesYoutubeIds: [
-      {
-        type: String,
-        
-      },
-    ],
-    creativeHooksYoutubeIds: [
-      {
-        type: String,
-        
-      },
-    ],
-    image:{
-      type:String
-    },
+   
+       status: {
+         type: String,
+         default: "pending",
+         enum: ["pending", "processed"],
+       },
+   
+       vehicle: [
+         {
+         type: mongoose.Schema.ObjectId,
+         ref: "CreatorSample",
+         default:null
+         }
+       ],
+      
+  
+       numberOfVehicleOccupant:{
+         type:Number,
+         default:1
+       },
+   
+       service:[
+         {
+           type:String,
+           enum:[
+             "none",
+             "carhire",
+             "car-and-security",
+             "vvip",
+             "business-executive",
+             "diplomatic",
+             "family-group",
+             "private-jet",
+             "medical-emergency",
+             "airline-crew",
+             "addon-lounge-access",
+             "addon-concierge",
+             "addon-carhire",
+             "addon-carhire-and-onsite-security",
+             "addon-carhire-and-ontransit-security"
+   
+           ],
+           default:"none"
+         }
+       ],
+   
+       sourceLocation:[
+         {
+           type: mongoose.Schema.ObjectId,
+           ref: "Location",
+         }
+         
+       ],
+       country:[
+         {
+           type: mongoose.Schema.ObjectId,
+           ref: "Country",
+         }
+         
+       ],
+   
+       sourceState:[
+         {
+           type: mongoose.Schema.ObjectId,
+           ref: "State",
+         }
+         
+       ],
+       destinationState:[
+         {
+           type: mongoose.Schema.ObjectId,
+           ref: "State",
+         }
+         
+       ],
+       destinationAddress:{
+         type:String
+       },
+       arrivalDate:{
+         type:Date
+       },
+       departureDate:{
+         type:Date
+       },
+       tripCoverage:{
+         type:String,
+         default:"one-way",
+         enum:["one-way","two-way"]
+       },
+       serviceApplicability:{
+         type:String,
+         default:"at-arrival",
+         enum:["at-arrival","at-departure","both"]
+       },
+   
+       onsiteSecurityServiceApplicability:{
+         type:String,
+         default:"not-applicable",
+         enum:["not-applicable","at-arrival","at-departure","both"]
+       },
+       ontransitSecurityServiceApplicability:{
+         type:String,
+         default:"not-applicable",
+         enum:["not-applicable","from-arrival","from-destination","both"]
+       },
+          
+       
+   
+       slug: {
+         type: String,
+         default:null
+       },
+       
+       category:[
+         {
+           type: mongoose.Schema.ObjectId,
+           ref: "Category",
+         }
+         
+       ],
+       image:{
+         type:String
+       },
     markForCompletionBy: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
@@ -210,6 +179,40 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ["staff", "brand"],
     },
+    name:{
+      type:String,
+      default:null
+    },
+    phoneNumber:{
+      type:String,
+      default:null
+    },
+    emailAddress:{
+      type:String,
+      default:null
+    },
+    businessName:{
+      type:String,
+      default:null
+    },
+    bookedDate: {
+      type: Date,
+      default: Date.now,
+    },
+    bookedBy:[
+      {
+        type: mongoose.Schema.ObjectId,
+      ref: "User",
+      }
+    ],
+    numberOfGuest:{
+      type:Number,
+      default:0
+    },
+    packageCostPerPerson:{
+      type:Number,
+      default:0
+    },
    
   },
   {
@@ -219,73 +222,40 @@ const orderSchema = new mongoose.Schema(
 );
 
 //QUERY MIDDLEWARE
+  
 orderSchema.pre(/^find/, function (next) {
   this.populate({
-    path: "brand",
+    path: "sourceLocation",
+  });
+  next();
+});
+orderSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "sourceState",
+  });
+  next();
+});
+orderSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "destinationState",
+  });
+  next();
+});
+orderSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "country",
   });
   next();
 });
 
 orderSchema.pre(/^find/, function (next) {
   this.populate({
-    path: "project",
+    path: "vehicle",
   });
   next();
 });
 
-orderSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "language",
-  });
-  next();
-});
 
-orderSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "productCurrency",
-  });
-  next();
-});
-
-orderSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "brandCountry",
-  });
-  next();
-});
-
-orderSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "transactionId",
-  });
-  next();
-});
-orderSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "creator",
-  });
-  next();
-});
-orderSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "productCategory",
-  });
-  next();
-});
-
-orderSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "markForCompletionBy",
-  });
-  next();
-});
-
-orderSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "markForPaymentBy",
-  });
-  next();
-});
 
 
 

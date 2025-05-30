@@ -41,7 +41,7 @@ router
   .get(userController.getAllUsers)
   .post(
     authController.protect,
-    authController.restrictTo("admin", "user"),
+    authController.restrictTo("admin", "staff"),
     userController.createUser
   );
 

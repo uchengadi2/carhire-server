@@ -20,9 +20,9 @@ router
   .get(creatorSampleController.getAllCreatorSamples)
   .post(
     authController.protect,
-    authController.restrictTo("admin","creator"),
-    creatorSampleController.uploadCreatorSampleImage,
-    creatorSampleController.resizeCreatorSampleImage,
+    authController.restrictTo("admin","vehicleOwner"),
+    creatorSampleController.uploadVehicleImages,
+    creatorSampleController.resizeVehicleImages,
     creatorSampleController.createCreatorSample
   );
 
@@ -31,14 +31,14 @@ router
   .get(creatorSampleController.getCreatorSample)
   .patch(
     authController.protect,
-    authController.restrictTo("admin","creator"),
-    creatorSampleController.uploadCreatorSampleImage,
-    creatorSampleController.resizeCreatorSampleImage,
+    authController.restrictTo("admin","vehicleOwner"),
+    creatorSampleController.uploadVehicleImages,
+    creatorSampleController.resizeVehicleImages,
     creatorSampleController.updateCreatorSample
   )
   .delete(
     authController.protect,
-    authController.restrictTo("admin","creator"),
+    authController.restrictTo("admin","vehicleOwner"),
     creatorSampleController.deleteCreatorSample
   );
 

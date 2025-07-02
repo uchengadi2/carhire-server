@@ -47,7 +47,7 @@ const cartSchema = new mongoose.Schema(
 
     numberOfVehicleOccupant:{
       type:Number,
-      default:1
+      default:0
     },
 
     service:[
@@ -177,7 +177,20 @@ const cartSchema = new mongoose.Schema(
       type:Number,
       default:0
     },
-    
+
+    numberOfVehicleRequired:{
+      type:Number,
+      default:1
+    },
+    requestedModel:{
+      type:String,
+      default:"any-model",
+      enum: ["any-model","below-2010", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024","2025"]
+    },
+    comment:{
+      type:String,
+      default:null
+    },
 
   },
 
